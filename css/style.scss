@@ -1,0 +1,69 @@
+body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    width: 100vw;
+    .main__container {
+        background-color: #1a1a1a;
+        height: 100%;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        place-content: center;
+        place-items: center;
+        .menu__container {
+            background-color: red;
+            display: flex;
+            place-content: center;
+            place-items: center;
+            .menu__start {
+                background-color: blue;
+                display: flex;
+                place-content: center;
+                place-items: center;
+                .menu__start--btn {                    
+                    height: 50px;
+                    width: 150px;
+                    border-radius: 5px;
+                    &:hover {
+                        background-color: aquamarine;
+                    }
+                }
+            }
+            
+        }
+        .game__container {
+            height: 100%;
+            width: 100%;
+            display: none;
+            grid-template-rows: 10% 90%;
+            .game__menu--container {
+                height: 100%;
+                background-color: green;
+                display: flex;
+                place-content: center;
+                place-items: center;
+                .menu__finish {
+                    .menu__finish--btn {
+                        height: 50px;
+                        width: 150px;
+                        border-radius: 5px;
+                        &:hover {
+                            background-color: aquamarine;
+                        }
+                    }
+                }
+            }
+            .game__board--container {
+                display: flex;
+                place-content: center;
+                place-items: center;
+                .game__board {                    
+                    border: 2px solid red;
+                    // width: 500px;
+                    // height: 80vh;
+                }
+            }
+        }
+    }
+}
