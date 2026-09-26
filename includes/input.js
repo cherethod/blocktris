@@ -1,7 +1,6 @@
 import {
     CONTROLS
 } from "./config.js";
-import { state } from "./state.js";
 import {
     cleanPiece,
     drawPiece
@@ -10,9 +9,9 @@ import {
     movePieceDown,
     movePieceLeft,
     movePieceRight,
+    rotateCurrentPiece,
 } from "./movement.js";
 
-import { rotatePiece, getHeightOfPiece } from "./pieces.js";
 
 export const keyHandler = (event) => {
     if (CONTROLS.left.includes(event.key)) {
@@ -35,8 +34,7 @@ export const keyHandler = (event) => {
 
     if (CONTROLS.rotate.includes(event.key)) {
         cleanPiece();
-        rotatePiece(state.currentPiece.matrix);
-        state.currentPiece.height = getHeightOfPiece(state.currentPiece.matrix);
+        rotateCurrentPiece();
         drawPiece();
     }
 };

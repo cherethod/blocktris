@@ -5,7 +5,6 @@ import { getHeightOfPiece, rotatePiece } from "./pieces.js";
 export const movePieceLeft = () => {
     if (state.currentPiece.x > 0)
         state.currentPiece.x -= 1;
-
 };
 
 export const movePieceRight = () => {
@@ -23,3 +22,10 @@ export const movePieceDown = () => {
         alert()
     }
 }
+
+export const rotateCurrentPiece = () => {
+    rotatePiece(state.currentPiece.matrix);
+
+    state.currentPiece.height =
+        getHeightOfPiece(state.currentPiece.matrix);
+};
