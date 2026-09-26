@@ -31,7 +31,7 @@ import {
 } from "./pieces.js";
 
 import {
-
+    keyHandler
 } from "./input.js";
 
 import {
@@ -150,37 +150,37 @@ const endGame = () => {
     gameBoardContainer.style.display = 'none';
 }
 
-const keyHandler = (event) => {
-    let keyCode = event.keyCode || event.which;
+// const keyHandler = (event) => {
+//     let keyCode = event.keyCode || event.which;
 
-    switch (keyCode) {
-        case keyLeft:
-            if (currentPieceX > 0) {
-                cleanPiece();
-                currentPieceX -= 1;
-                drawPiece();
-            }
-            break;
-        case keyRight:
-            if (currentPieceX + currentPiece.length < boardWidth) {
-                cleanPiece();
-                currentPieceX += 1;
-                drawPiece();
-            }
-            break;
-        case keyDown:
+//     switch (keyCode) {
+//         case keyLeft:
+//             if (currentPieceX > 0) {
+//                 cleanPiece();
+//                 currentPieceX -= 1;
+//                 drawPiece();
+//             }
+//             break;
+//         case keyRight:
+//             if (currentPieceX + currentPiece.length < boardWidth) {
+//                 cleanPiece();
+//                 currentPieceX += 1;
+//                 drawPiece();
+//             }
+//             break;
+//         case keyDown:
 
-            break;
-        case keyRotate:
-            cleanPiece();
-            rotatePiece(currentPiece);
-            currentPieceHeight = getHeightOfPiece();
-            drawPiece();
-            break;
-        default:
-            break;
-    }
-}
+//             break;
+//         case keyRotate:
+//             cleanPiece();
+//             rotatePiece(currentPiece);
+//             currentPieceHeight = getHeightOfPiece();
+//             drawPiece();
+//             break;
+//         default:
+//             break;
+//     }
+// }
 
 
 const initGame = () => {
