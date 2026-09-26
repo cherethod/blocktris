@@ -87,34 +87,6 @@ export const getPieceColor = (pieceType) => {
     }
 };
 
-// export const setPieceColor = (pieceType) => {
-//     switch (pieceType) {
-//         case 'O':
-//             state.currentPiece.color = 'blue'
-//             break;
-//         case 'I':
-//             state.currentPiece.color = 'red'
-//             break;
-//         case 'L':
-//             state.currentPiece.color = 'green'
-//             break;
-//         case 'J':
-//             state.currentPiece.color = 'green'
-//             break;
-//         case 'T':
-//             state.currentPiece.color = 'blue'
-//             break;
-//         case 'S':
-//             state.currentPiece.color = 'purple'
-//             break;
-//         case 'Z':
-//             state.currentPiece.color = 'purple'
-//             break;
-//         default:
-//             break;
-//     }
-// }
-
 export const getRandomNumber = (max) => {
     let num = Math.floor(Math.random() * (max + 1))
     return num;
