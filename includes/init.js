@@ -35,6 +35,7 @@ import {
 } from "./state.js"
 
 import {
+    initRenderer,
     drawPiece,
     drawBoard,
     cleanPiece
@@ -96,6 +97,7 @@ const endGame = () => {
 }
 
 const initGame = () => {
+    initRenderer();
     startBtn.addEventListener('click', loadGameBoard);
     finishBtn.addEventListener('click', endGame);
 }

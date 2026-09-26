@@ -2,10 +2,12 @@ import { gameBoard, context } from "./dom.js";
 import { boardWidth, boardHeight, cellSize, boardBgColor } from "./config.js";
 import { state } from "./state.js";
 
-gameBoard.width = boardWidth * cellSize;
-gameBoard.height = boardHeight * cellSize;
+export const initRenderer = () => {
+    gameBoard.width = boardWidth * cellSize;
+    gameBoard.height = boardHeight * cellSize;
+};
 
-export const drawCell = (x, y) => {
+const drawCell = (x, y) => {
     context.fillStyle = state.currentPiece.color; // Color de relleno de la celda
     context.strokeStyle = 'black'; // Color del borde de la celda
     context.lineWidth = 1; // Ancho del borde de la celda

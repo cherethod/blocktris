@@ -1,5 +1,8 @@
 import { state } from "./state.js"
-import { boardWidth, boardHeight, cellSize } from "./config.js";
+import { 
+    boardWidth, 
+    boardHeight
+} from "./config.js";
 
 export const initBoard = () => {
     state.board = [];
