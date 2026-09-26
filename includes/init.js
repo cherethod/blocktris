@@ -35,7 +35,7 @@ import {
 } from "./input.js";
 
 import {
-
+    movePieceDown
 } from "./movement.js";
 
 import {
@@ -43,7 +43,6 @@ import {
 } from "./state.js"
 
 import {
-    drawCell,
     drawPiece,
     drawBoard,
     cleanPiece
@@ -104,14 +103,7 @@ const generateNewPiece = () => {
 };
 
 
-const movePieceDown = () => {
-    if (state.currentPiece.y < boardHeight - state.currentPiece.height) {
-        state.currentPiece.y += 1;
-    }
-    else {
-        alert()
-    }
-}
+
 
 
 
