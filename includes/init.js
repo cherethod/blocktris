@@ -10,8 +10,7 @@ import {
 } from "./board.js";
 
 import {
-    boardWidth,
-    intervalTimer
+    boardWidth
 } from "./config.js";
 
 import {
@@ -26,10 +25,6 @@ import {
 } from "./input.js";
 
 import {
-    movePieceDown
-} from "./movement.js";
-
-import {
     state,
     resetCurrentPiece
 } from "./state.js"
@@ -37,9 +32,13 @@ import {
 import {
     initRenderer,
     drawPiece,
-    drawBoard,
-    cleanPiece
+    drawBoard
 } from "./renderer.js";
+
+import {
+    startTimer,
+    stopTimer
+} from "./game-loop.js";
 
 const generateNewPiece = () => {
     const selectedPiece = selectRandomPiece();
@@ -59,23 +58,6 @@ const generateNewPiece = () => {
 
     drawPiece();
 };
-
-const startTimer = () => {
-    state.internalIntervalId = setInterval(() => {
-        console.log(`
-            Current piece: ${state.currentPiece.matrix.length}\n
-            Current X position: ${state.currentPiece.x}\n
-            Current Y position: ${state.currentPiece.y}`)
-        cleanPiece();
-        movePieceDown();
-        drawPiece();
-    }, intervalTimer);
-}
-
-const stopTimer = () => {
-    clearInterval(state.internalIntervalId);
-    state.internalIntervalId = null;
-}
 
 const loadGameBoard = () => {
     mainMenu.style.display = 'none';
