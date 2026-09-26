@@ -45,3 +45,20 @@ export const drawBoard = () => {
         }
     }
 }
+
+const cleanCell = (x, y) => {
+    context.fillStyle = boardBgColor; // Color de relleno de la celda  
+    context.fillRect(x, y, cellSize, cellSize); // Dibuja el rectángulo de la celda
+};
+
+export const cleanPiece = () => {
+    for (let row = 0; row < state.currentPiece.matrix.length; row++) {
+        for (let col = 0; col < state.currentPiece.matrix[row].length; col++) {
+            if (state.currentPiece.matrix[row][col] === 1) {
+                const x = (state.currentPiece.x + col) * cellSize;
+                const y = (state.currentPiece.y + row) * cellSize;
+                cleanCell(x, y);
+            }
+        }
+    }
+};
