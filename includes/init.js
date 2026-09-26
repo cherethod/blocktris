@@ -2,9 +2,7 @@ import {
     mainMenu,
     startBtn,
     finishBtn,
-    gameBoardContainer,
-    gameBoard,
-    context
+    gameBoardContainer
 } from "./dom.js";
 
 import {
@@ -12,19 +10,12 @@ import {
 } from "./board.js";
 
 import {
-    boardBgColor,
     boardWidth,
-    boardHeight,
-    cellSize,
-    intervalTimer,
-    CONTROLS
+    intervalTimer
 } from "./config.js";
 
 import {
-    pieces,
     getHeightOfPiece,
-    rotatePiece,
-    setPieceColor,
     getRandomNumber,
     createPiece,
     selectRandomPiece
