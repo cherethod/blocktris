@@ -7,7 +7,11 @@ import {
     cleanPiece, 
     drawPiece 
 } from "./renderer.js";
-import { movePieceDown } from "./movement.js";
+import { 
+    movePieceDown,
+    movePieceLeft,
+    movePieceRight
+} from "./movement.js";
 import {
     rotatePiece,
     getHeightOfPiece
@@ -17,7 +21,7 @@ export const keyHandler = (event) => {
     if (CONTROLS.left.includes(event.key)) {
         if (state.currentPiece.x > 0) {
             cleanPiece();
-            state.currentPiece.x -= 1;
+            movePieceLeft();
             drawPiece();
         }
     }
@@ -28,7 +32,7 @@ export const keyHandler = (event) => {
             < boardWidth
         ) {
             cleanPiece();
-            state.currentPiece.x += 1;
+            movePieceRight();
             drawPiece();
         }
     }
