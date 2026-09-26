@@ -8,7 +8,7 @@ import {
 } from "./dom.js";
 
 import {
-
+    initBoard
 } from "./board.js";
 
 import {
@@ -21,7 +21,12 @@ import {
 } from "./config.js";
 
 import {
-    pieces
+    pieces,
+    getHeightOfPiece,
+    rotatePiece,
+    setPieceColor,
+    createPiece,
+    selectRandomPiece
 } from "./pieces.js";
 
 import {
@@ -36,38 +41,18 @@ import {
     state
 } from "./state.js"
 
+import {
+    drawCell,
+    drawPiece,
+    drawBoard
+} from "./renderer.js";
 
-const getHeightOfPiece = () => {
-    let pieceHeight = 0;
-    for (let row = 0; row < state.currentPiece.length; row++) {
-        for (let col = 0; col < state.currentPiece[row].length; col++) {
-            if (state.currentPiece[row][col] === 1) {
-                pieceHeight = Math.max(pieceHeight, row + 1);
-            }
-        }
-    }
-    return pieceHeight;
-};
+
 
 
 // MATRIZ DE ROTACIÓN
 
-const rotatePiece = (piece) => {
-    let size = piece.length;
-    let layers = Math.floor(size / 2);
 
-    for (let layer = 0; layer < layers; layer++) {
-        let first = layer;
-        let last = size - 1 - layer;
-        for (let i = first; i < last; i++) {
-            const offset = i - first;
-            const temp = piece[first][i];
-            piece[first][i] = piece[last - offset][first];
-            piece[last - offset][first] = piece[last][last - offset];
-            piece[last][last - offset] = piece[i][last];
-            piece[i][last] = temp;
-        }
-    }
     // FIX PARA PIEZAS DE 4 CELDAS DE LONGITUD
     // if (size === 4) {
     //     const temp = piece[0][1];
@@ -82,7 +67,6 @@ const rotatePiece = (piece) => {
     //     piece[1][2] = piece[2][1];
     //     piece[2][1] = temp3;
     //   }
-}
 
 // MATRIZ DE TRANSFORMACIÓN
 
@@ -102,58 +86,13 @@ const rotatePiece = (piece) => {
 //     }
 //   };
 
-const setPieceColor = (pieceType) => {
-    switch (pieceType) {
-        case 'O':
-            state.currentPiece.color = 'blue'
-            break;
-        case 'I':
-            state.currentPiece.color = 'red'
-            break;
-        case 'L':
-            state.currentPiece.color = 'green'
-            break;
-        case 'J':
-            state.currentPiece.color = 'green'
-            break;
-        case 'T':
-            state.currentPiece.color = 'blue'
-            break;
-        case 'S':
-            state.currentPiece.color = 'purple'
-            break;
-        case 'Z':
-            state.currentPiece.color = 'purple'
-            break;
-        default:
-            break;
-    }
-}
 
-const getRandomNumber = (max) => {
-    let num = Math.floor(Math.random() * (max + 1))
-    return num;
-}
 
-const createPiece = (templatedPiece) => {
-    const newPiece = [];
-    for (let i = 0; i < templatedPiece.length; i++) {
-        newPiece[i] = templatedPiece[i].slice();
-    }
-    return newPiece;
-}
 
-const selectRandomPiece = () => {
-    const piecesKeys = Object.keys(pieces);
-    const randomIndex = getRandomNumber(piecesKeys.length - 1);
-    const randomPiece = pieces[piecesKeys[randomIndex]];
-    setPieceColor(piecesKeys[randomIndex]);
-    return randomPiece;
-}
 
 const generateNewPiece = () => {
-    state.currentPiece = createPiece(selectRandomPiece());
-    const maxPosX = boardWidth - state.currentPiece[0].length + 1;
+    state.currentPiece.matrix = createPiece(selectRandomPiece());
+    const maxPosX = boardWidth - state.currentPiece.matrix[0].length + 1;
     const initialX = getRandomNumber(maxPosX - 1);
 
     state.currentPiece.x = initialX;
@@ -172,35 +111,15 @@ const movePieceDown = () => {
     }
 }
 
-const drawCell = (x, y) => {
-    context.fillStyle = state.currentPiece.color; // Color de relleno de la celda
-    context.strokeStyle = 'black'; // Color del borde de la celda
-    context.lineWidth = 1; // Ancho del borde de la celda
 
-    context.fillRect(x, y, cellSize, cellSize); // Dibuja el rectángulo de la celda
-    context.strokeRect(x, y, cellSize, cellSize); // Dibuja el borde de la celda
-};
-
-
-const drawPiece = () => {
-    for (let row = 0; row < state.currentPiece.length; row++) {
-        for (let col = 0; col < state.currentPiece[row].length; col++) {
-            if (state.currentPiece[row][col] === 1) {
-                const x = (state.currentPiece.x + col) * cellSize;
-                const y = (state.currentPiece.y + row) * cellSize;
-                drawCell(x, y);
-            }
-        }
-    }
-};
 const cleanCell = (x, y) => {
     context.fillStyle = boardBgColor; // Color de relleno de la celda  
     context.fillRect(x, y, cellSize, cellSize); // Dibuja el rectángulo de la celda
 };
 const cleanPiece = () => {
-    for (let row = 0; row < state.currentPiece.length; row++) {
-        for (let col = 0; col < state.currentPiece[row].length; col++) {
-            if (state.currentPiece[row][col] === 1) {
+    for (let row = 0; row < state.currentPiece.matrix.length; row++) {
+        for (let col = 0; col < state.currentPiece.matrix[row].length; col++) {
+            if (state.currentPiece.matrix[row][col] === 1) {
                 const x = (state.currentPiece.x + col) * cellSize;
                 const y = (state.currentPiece.y + row) * cellSize;
                 cleanCell(x, y);
@@ -210,40 +129,13 @@ const cleanPiece = () => {
 };
 
 
-const initBoard = () => {
-    state.board = [];
-    for (let row = 0; row < boardHeight; row++) {
-        state.board[row] = [];
-        for (let col = 0; col < boardWidth; col++) {
-            state.board[row][col] = 0; // Inicializa todas las celdas como vacías (0)
-        }
-    }
-};
 
 
-const drawBoard = () => {
-    context.fillStyle = boardBgColor;
-    context.fillRect(0, 0, gameBoard.width, gameBoard.height);
-
-    for (let row = 0; row < boardHeight; row++) {
-        for (let col = 0; col < boardWidth; col++) {
-            const x = col * cellSize;
-            const y = row * cellSize;
-            const cell = state.board[row][col];
-
-            if (cell === 1) {
-                s
-                context.fillStyle = '#f00';
-                context.fillRect(x, y, cellSize, cellSize);
-            }
-        }
-    }
-}
 
 const startTimer = () => {
     state.internalIntervalId = setInterval(() => {
         console.log(`
-            Current piece: ${state.currentPiece.length}\n
+            Current piece: ${state.currentPiece.matrix.length}\n
             Current X position: ${state.currentPiece.x}\n
             Current Y position: ${state.currentPiece.y}`)
         cleanPiece();
