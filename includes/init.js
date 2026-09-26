@@ -46,7 +46,8 @@ const generateNewPiece = () => {
 
     state.currentPiece.x = initialX;
     state.currentPiece.y = 0;
-    state.currentPiece.height = getHeightOfPiece();
+    state.currentPiece.height =
+    getHeightOfPiece(state.currentPiece.matrix);
     drawPiece();
 };
 

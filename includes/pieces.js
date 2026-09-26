@@ -38,15 +38,17 @@ export const pieces = {
     ]
 }
 
-export const getHeightOfPiece = () => {
+export const getHeightOfPiece = (piece) => {
     let pieceHeight = 0;
-    for (let row = 0; row < state.currentPiece.matrix.length; row++) {
-        for (let col = 0; col < state.currentPiece.matrix[row].length; col++) {
-            if (state.currentPiece.matrix[row][col] === 1) {
+
+    for (let row = 0; row < piece.length; row++) {
+        for (let col = 0; col < piece[row].length; col++) {
+            if (piece[row][col] === 1) {
                 pieceHeight = Math.max(pieceHeight, row + 1);
             }
         }
     }
+
     return pieceHeight;
 };
 

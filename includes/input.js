@@ -42,7 +42,7 @@ export const keyHandler = (event) => {
     if (CONTROLS.rotate.includes(event.key)) {
         cleanPiece();
         rotatePiece(state.currentPiece.matrix);
-        state.currentPiece.height = getHeightOfPiece();
+        state.currentPiece.height = getHeightOfPiece(state.currentPiece.matrix);
         drawPiece();
     }
 };
