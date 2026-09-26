@@ -25,6 +25,7 @@ import {
     getHeightOfPiece,
     rotatePiece,
     setPieceColor,
+    getRandomNumber,
     createPiece,
     selectRandomPiece
 } from "./pieces.js";

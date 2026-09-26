@@ -1,5 +1,6 @@
-import { gameBoard } from "./dom";
-import { boardWidth, boardHeight, cellSize } from "./config";
+import { gameBoard, context } from "./dom.js";
+import { boardWidth, boardHeight, cellSize, boardBgColor } from "./config.js";
+import { state } from "./state.js";
 
 gameBoard.width = boardWidth * cellSize;
 gameBoard.height = boardHeight * cellSize;

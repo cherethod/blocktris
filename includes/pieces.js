@@ -1,3 +1,5 @@
+import { state } from "./state.js"
+
 export const pieces = {
     O: [
         [1,1],
