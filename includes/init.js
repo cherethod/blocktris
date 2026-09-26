@@ -1,41 +1,71 @@
-import "./dom.js"
-import "./board.js"
-import "./config.js"
-import "./input.js"
-import "./movement.js"
-import "./pieces.js"
-import "./renderer.js"
-import "./state.js"
+import {
+    mainMenu,
+    startBtn,
+    finishBtn,
+    gameBoardContainer,
+    gameBoard,
+    context
+} from "./dom.js";
+
+import {
+
+} from "./board.js";
+
+import {
+    boardBgColor,
+    boardWidth,
+    boardHeight,
+    cellSize,
+    intervalTimer,
+    CONTROLS
+} from "./config.js";
+
+import {
+    pieces
+} from "./pieces.js";
+
+import {
+
+} from "./input.js";
+
+import {
+
+} from "./movement.js";
+
+import {
+    state
+} from "./state.js"
+
 
 const getHeightOfPiece = () => {
     let pieceHeight = 0;
-    for (let row = 0; row < currentPiece.length; row++) {
-      for (let col = 0; col < currentPiece[row].length; col++) {
-        if (currentPiece[row][col] === 1) {
-          pieceHeight = Math.max(pieceHeight, row + 1);
+    for (let row = 0; row < state.currentPiece.length; row++) {
+        for (let col = 0; col < state.currentPiece[row].length; col++) {
+            if (state.currentPiece[row][col] === 1) {
+                pieceHeight = Math.max(pieceHeight, row + 1);
+            }
         }
-      }
     }
     return pieceHeight;
-  };
+};
 
 
 // MATRIZ DE ROTACIÓN
 
-const rotatePiece = (piece)=> {
+const rotatePiece = (piece) => {
     let size = piece.length;
-    let layers = Math.floor(size / 2);  
+    let layers = Math.floor(size / 2);
 
     for (let layer = 0; layer < layers; layer++) {
         let first = layer;
         let last = size - 1 - layer;
-        for (let i=first; i < last; i++) {
-           const offset = i - first;
-           const temp = piece[first][i];
-           piece[first][i] = piece[last - offset][first];
-           piece[last - offset][first] = piece[last][last - offset];
-           piece[last][last - offset] = piece[i][last];
-           piece[i][last] = temp;
+        for (let i = first; i < last; i++) {
+            const offset = i - first;
+            const temp = piece[first][i];
+            piece[first][i] = piece[last - offset][first];
+            piece[last - offset][first] = piece[last][last - offset];
+            piece[last][last - offset] = piece[i][last];
+            piece[i][last] = temp;
         }
     }
     // FIX PARA PIEZAS DE 4 CELDAS DE LONGITUD
@@ -43,11 +73,11 @@ const rotatePiece = (piece)=> {
     //     const temp = piece[0][1];
     //     piece[0][1] = piece[1][0];
     //     piece[1][0] = temp;
-    
+
     //     const temp2 = piece[0][2];
     //     piece[0][2] = piece[2][0];
     //     piece[2][0] = temp2;
-    
+
     //     const temp3 = piece[1][2];
     //     piece[1][2] = piece[2][1];
     //     piece[2][1] = temp3;
@@ -62,7 +92,7 @@ const rotatePiece = (piece)=> {
 //       [0, -1],
 //       [1, 0]
 //     ];
-  
+
 //     for (let row = 0; row < size; row++) {
 //       for (let col = 0; col < size; col++) {
 //         const newRow = matrix[0][0] * col + matrix[0][1] * row;
@@ -72,35 +102,35 @@ const rotatePiece = (piece)=> {
 //     }
 //   };
 
-const setPieceColor = (pieceType)=> {
+const setPieceColor = (pieceType) => {
     switch (pieceType) {
         case 'O':
-            currentPieceColor = 'blue'
+            state.currentPiece.color = 'blue'
             break;
         case 'I':
-            currentPieceColor = 'red'
+            state.currentPiece.color = 'red'
             break;
         case 'L':
-            currentPieceColor = 'green'
+            state.currentPiece.color = 'green'
             break;
         case 'J':
-            currentPieceColor = 'green'
+            state.currentPiece.color = 'green'
             break;
         case 'T':
-            currentPieceColor = 'blue'
+            state.currentPiece.color = 'blue'
             break;
         case 'S':
-            currentPieceColor = 'purple'
+            state.currentPiece.color = 'purple'
             break;
         case 'Z':
-            currentPieceColor = 'purple'
+            state.currentPiece.color = 'purple'
             break;
         default:
             break;
     }
 }
 
-const getRandomNumber = (max)=> {
+const getRandomNumber = (max) => {
     let num = Math.floor(Math.random() * (max + 1))
     return num;
 }
@@ -108,34 +138,34 @@ const getRandomNumber = (max)=> {
 const createPiece = (templatedPiece) => {
     const newPiece = [];
     for (let i = 0; i < templatedPiece.length; i++) {
-      newPiece[i] = templatedPiece[i].slice();
+        newPiece[i] = templatedPiece[i].slice();
     }
     return newPiece;
 }
-  
-const selectRandomPiece = ()=>{
-    const piecesKeys = Object.keys(pieces);   
-    const randomIndex = getRandomNumber(piecesKeys.length - 1);    
+
+const selectRandomPiece = () => {
+    const piecesKeys = Object.keys(pieces);
+    const randomIndex = getRandomNumber(piecesKeys.length - 1);
     const randomPiece = pieces[piecesKeys[randomIndex]];
     setPieceColor(piecesKeys[randomIndex]);
     return randomPiece;
 }
 
 const generateNewPiece = () => {
-    currentPiece = createPiece(selectRandomPiece());
-    const maxPosX = boardWidth - currentPiece[0].length + 1;
+    state.currentPiece = createPiece(selectRandomPiece());
+    const maxPosX = boardWidth - state.currentPiece[0].length + 1;
     const initialX = getRandomNumber(maxPosX - 1);
-  
-    currentPieceX = initialX;
-    currentPieceY = 0;
-    currentPieceHeight = getHeightOfPiece();
-    drawPiece();
-  };
-  
 
-const movePieceDown = ()=> {
-    if (currentPieceY < boardHeight - currentPieceHeight) {
-        currentPieceY += 1;
+    state.currentPiece.x = initialX;
+    state.currentPiece.y = 0;
+    state.currentPiece.height = getHeightOfPiece();
+    drawPiece();
+};
+
+
+const movePieceDown = () => {
+    if (state.currentPiece.y < boardHeight - state.currentPiece.height) {
+        state.currentPiece.y += 1;
     }
     else {
         alert()
@@ -143,55 +173,55 @@ const movePieceDown = ()=> {
 }
 
 const drawCell = (x, y) => {
-    context.fillStyle = currentPieceColor; // Color de relleno de la celda
+    context.fillStyle = state.currentPiece.color; // Color de relleno de la celda
     context.strokeStyle = 'black'; // Color del borde de la celda
     context.lineWidth = 1; // Ancho del borde de la celda
-  
+
     context.fillRect(x, y, cellSize, cellSize); // Dibuja el rectángulo de la celda
     context.strokeRect(x, y, cellSize, cellSize); // Dibuja el borde de la celda
-  };
-  
+};
 
-const drawPiece = () => {    
-    for (let row = 0; row < currentPiece.length; row++) {
-      for (let col = 0; col < currentPiece[row].length; col++) {
-        if (currentPiece[row][col] === 1) {
-          const x = (currentPieceX + col) * cellSize;
-          const y = (currentPieceY + row) * cellSize;
-          drawCell(x, y);
+
+const drawPiece = () => {
+    for (let row = 0; row < state.currentPiece.length; row++) {
+        for (let col = 0; col < state.currentPiece[row].length; col++) {
+            if (state.currentPiece[row][col] === 1) {
+                const x = (state.currentPiece.x + col) * cellSize;
+                const y = (state.currentPiece.y + row) * cellSize;
+                drawCell(x, y);
+            }
         }
-      }
     }
-  };
-  const cleanCell = (x, y) => {
+};
+const cleanCell = (x, y) => {
     context.fillStyle = boardBgColor; // Color de relleno de la celda  
     context.fillRect(x, y, cellSize, cellSize); // Dibuja el rectángulo de la celda
-  };
-  const cleanPiece = () => {    
-    for (let row = 0; row < currentPiece.length; row++) {
-      for (let col = 0; col < currentPiece[row].length; col++) {
-        if (currentPiece[row][col] === 1) {
-          const x = (currentPieceX + col) * cellSize;
-          const y = (currentPieceY + row) * cellSize;
-          cleanCell(x, y);
+};
+const cleanPiece = () => {
+    for (let row = 0; row < state.currentPiece.length; row++) {
+        for (let col = 0; col < state.currentPiece[row].length; col++) {
+            if (state.currentPiece[row][col] === 1) {
+                const x = (state.currentPiece.x + col) * cellSize;
+                const y = (state.currentPiece.y + row) * cellSize;
+                cleanCell(x, y);
+            }
         }
-      }
     }
-  }; 
+};
 
 
 const initBoard = () => {
-    board = [];
+    state.board = [];
     for (let row = 0; row < boardHeight; row++) {
-      board[row] = [];
-      for (let col = 0; col < boardWidth; col++) {
-        board[row][col] = 0; // Inicializa todas las celdas como vacías (0)
-      }
+        state.board[row] = [];
+        for (let col = 0; col < boardWidth; col++) {
+            state.board[row][col] = 0; // Inicializa todas las celdas como vacías (0)
+        }
     }
-  };
+};
 
- 
-const drawBoard = ()=> {
+
+const drawBoard = () => {
     context.fillStyle = boardBgColor;
     context.fillRect(0, 0, gameBoard.width, gameBoard.height);
 
@@ -199,9 +229,10 @@ const drawBoard = ()=> {
         for (let col = 0; col < boardWidth; col++) {
             const x = col * cellSize;
             const y = row * cellSize;
-            const cell = board[row][col];
+            const cell = state.board[row][col];
 
             if (cell === 1) {
+                s
                 context.fillStyle = '#f00';
                 context.fillRect(x, y, cellSize, cellSize);
             }
@@ -209,43 +240,46 @@ const drawBoard = ()=> {
     }
 }
 
-const startTimer= ()=> {
-    internalIntervalId = setInterval(() => {        
-        console.log(`Current piece: ${currentPiece.length}\nCurrent X position: ${currentPieceX}\nCurrent Y position: ${currentPieceY}`)
+const startTimer = () => {
+    state.internalIntervalId = setInterval(() => {
+        console.log(`
+            Current piece: ${state.currentPiece.length}\n
+            Current X position: ${state.currentPiece.x}\n
+            Current Y position: ${state.currentPiece.y}`)
         cleanPiece();
         movePieceDown();
         drawPiece();
     }, intervalTimer);
 }
 
-const stopTimer = ()=> {
-    clearInterval(internalIntervalId);
+const stopTimer = () => {
+    clearInterval(state.internalIntervalId);
 }
 
-const loadGameBoard = ()=> {
-    mainMenu.style.display='none';
-    gameBoardContainer.style.display='grid';
+const loadGameBoard = () => {
+    mainMenu.style.display = 'none';
+    gameBoardContainer.style.display = 'grid';
     initBoard();
     drawBoard();
     generateNewPiece();
     document.addEventListener('keydown', keyHandler);
     // setTimeout(() => {
-        startTimer();
+    startTimer();
     // }, intervalTimer); 
 }
-const endGame = ()=> {
+const endGame = () => {
     stopTimer();
     document.removeEventListener('keydown', keyHandler);
-    currentPiece = undefined;
-    currentPieceX = undefined;
-    currentPieceY = undefined;
-    currentPieceColor = undefined;
-    currentPieceHeight = undefined;
-    mainMenu.style.display='flex';
-    gameBoardContainer.style.display='none';    
+    state.currentPiece = undefined;
+    state.currentPiece.x = undefined;
+    state.currentPiece.y = undefined;
+    state.currentPiece.color = undefined;
+    state.currentPiece.height = undefined;
+    mainMenu.style.display = 'flex';
+    gameBoardContainer.style.display = 'none';
 }
 
-const keyHandler = (event)=> {
+const keyHandler = (event) => {
     let keyCode = event.keyCode || event.which;
 
     switch (keyCode) {
@@ -254,17 +288,17 @@ const keyHandler = (event)=> {
                 cleanPiece();
                 currentPieceX -= 1;
                 drawPiece();
-            }            
+            }
             break;
         case keyRight:
-            if (currentPieceX + currentPiece.length < boardWidth ) {
+            if (currentPieceX + currentPiece.length < boardWidth) {
                 cleanPiece();
                 currentPieceX += 1;
                 drawPiece();
             }
             break;
         case keyDown:
-            
+
             break;
         case keyRotate:
             cleanPiece();
@@ -278,11 +312,11 @@ const keyHandler = (event)=> {
 }
 
 
-const initGame = ()=> {
-    startBtn.addEventListener('click', loadGameBoard);    
+const initGame = () => {
+    startBtn.addEventListener('click', loadGameBoard);
     finishBtn.addEventListener('click', endGame);
 }
 
-window.addEventListener("DOMContentLoaded", ()=> {
+window.addEventListener("DOMContentLoaded", () => {
     initGame();
 })
