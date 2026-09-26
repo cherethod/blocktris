@@ -73,6 +73,7 @@ const startTimer = () => {
 
 const stopTimer = () => {
     clearInterval(state.internalIntervalId);
+    state.internalIntervalId = null;
 }
 
 const loadGameBoard = () => {
