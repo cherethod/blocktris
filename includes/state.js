@@ -11,3 +11,11 @@ export const state = {
 
     internalIntervalId: null
 };
+
+export const resetCurrentPiece = () => {
+    state.currentPiece.matrix = null;
+    state.currentPiece.x = 0;
+    state.currentPiece.y = 0;
+    state.currentPiece.color = null;
+    state.currentPiece.height = 0;
+};

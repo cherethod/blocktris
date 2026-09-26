@@ -30,7 +30,8 @@ import {
 } from "./movement.js";
 
 import {
-    state
+    state,
+    resetCurrentPiece
 } from "./state.js"
 
 import {
@@ -88,11 +89,7 @@ const loadGameBoard = () => {
 const endGame = () => {
     stopTimer();
     document.removeEventListener('keydown', keyHandler);
-    state.currentPiece = undefined;
-    state.currentPiece.x = undefined;
-    state.currentPiece.y = undefined;
-    state.currentPiece.color = undefined;
-    state.currentPiece.height = undefined;
+    resetCurrentPiece();
     mainMenu.style.display = 'flex';
     gameBoardContainer.style.display = 'none';
 }
