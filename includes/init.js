@@ -14,7 +14,6 @@ import {
 } from "./config.js";
 
 import {
-    getHeightOfPiece,
     getRandomNumber,
     createPiece,
     selectRandomPiece
@@ -39,6 +38,8 @@ import {
     startGameLoop,
     stopGameLoop
 } from "./game-loop.js";
+
+import { getHeightOfPiece } from "./movement.js";
 
 const generateNewPiece = () => {
     const selectedPiece = selectRandomPiece();

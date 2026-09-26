@@ -9,12 +9,10 @@ import {
 import {
     movePieceDown,
     movePieceLeft,
-    movePieceRight
+    movePieceRight,
+    getHeightOfPiece,
+    rotatePiece
 } from "./movement.js";
-import {
-    rotatePiece,
-    getHeightOfPiece
-} from "./pieces.js";
 
 export const keyHandler = (event) => {
     if (CONTROLS.left.includes(event.key)) {
