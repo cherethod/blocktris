@@ -40,14 +40,21 @@ import {
 } from "./renderer.js";
 
 const generateNewPiece = () => {
-    state.currentPiece.matrix = createPiece(selectRandomPiece());
-    const maxPosX = boardWidth - state.currentPiece.matrix[0].length + 1;
+    const selectedPiece = selectRandomPiece();
+
+    state.currentPiece.matrix = createPiece(selectedPiece.matrix);
+    state.currentPiece.color = selectedPiece.color;
+
+    const maxPosX =
+        boardWidth - state.currentPiece.matrix[0].length + 1;
+
     const initialX = getRandomNumber(maxPosX - 1);
 
     state.currentPiece.x = initialX;
     state.currentPiece.y = 0;
     state.currentPiece.height =
-    getHeightOfPiece(state.currentPiece.matrix);
+        getHeightOfPiece(state.currentPiece.matrix);
+
     drawPiece();
 };
 

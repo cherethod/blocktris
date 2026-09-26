@@ -1,5 +1,3 @@
-import { state } from "./state.js"
-
 export const pieces = {
     O: [
         [1,1],
@@ -70,33 +68,52 @@ export const rotatePiece = (piece) => {
     }
 }
 
-export const setPieceColor = (pieceType) => {
+export const getPieceColor = (pieceType) => {
     switch (pieceType) {
         case 'O':
-            state.currentPiece.color = 'blue'
-            break;
+            return 'blue';
         case 'I':
-            state.currentPiece.color = 'red'
-            break;
+            return 'red';
         case 'L':
-            state.currentPiece.color = 'green'
-            break;
         case 'J':
-            state.currentPiece.color = 'green'
-            break;
+            return 'green';
         case 'T':
-            state.currentPiece.color = 'blue'
-            break;
+            return 'blue';
         case 'S':
-            state.currentPiece.color = 'purple'
-            break;
         case 'Z':
-            state.currentPiece.color = 'purple'
-            break;
+            return 'purple';
         default:
-            break;
+            return null;
     }
-}
+};
+
+// export const setPieceColor = (pieceType) => {
+//     switch (pieceType) {
+//         case 'O':
+//             state.currentPiece.color = 'blue'
+//             break;
+//         case 'I':
+//             state.currentPiece.color = 'red'
+//             break;
+//         case 'L':
+//             state.currentPiece.color = 'green'
+//             break;
+//         case 'J':
+//             state.currentPiece.color = 'green'
+//             break;
+//         case 'T':
+//             state.currentPiece.color = 'blue'
+//             break;
+//         case 'S':
+//             state.currentPiece.color = 'purple'
+//             break;
+//         case 'Z':
+//             state.currentPiece.color = 'purple'
+//             break;
+//         default:
+//             break;
+//     }
+// }
 
 export const getRandomNumber = (max) => {
     let num = Math.floor(Math.random() * (max + 1))
@@ -114,7 +131,10 @@ export const createPiece = (templatedPiece) => {
 export const selectRandomPiece = () => {
     const piecesKeys = Object.keys(pieces);
     const randomIndex = getRandomNumber(piecesKeys.length - 1);
-    const randomPiece = pieces[piecesKeys[randomIndex]];
-    setPieceColor(piecesKeys[randomIndex]);
-    return randomPiece;
-}
+    const pieceType = piecesKeys[randomIndex];
+
+    return {
+        matrix: pieces[pieceType],
+        color: getPieceColor(pieceType)
+    };
+};
