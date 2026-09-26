@@ -1,13 +1,12 @@
-import { 
-    CONTROLS, 
-    boardWidth 
+import {
+    CONTROLS
 } from "./config.js";
 import { state } from "./state.js";
-import { 
-    cleanPiece, 
-    drawPiece 
+import {
+    cleanPiece,
+    drawPiece
 } from "./renderer.js";
-import { 
+import {
     movePieceDown,
     movePieceLeft,
     movePieceRight
@@ -19,22 +18,15 @@ import {
 
 export const keyHandler = (event) => {
     if (CONTROLS.left.includes(event.key)) {
-        if (state.currentPiece.x > 0) {
-            cleanPiece();
-            movePieceLeft();
-            drawPiece();
-        }
+        cleanPiece();
+        movePieceLeft();
+        drawPiece();
     }
 
     if (CONTROLS.right.includes(event.key)) {
-        if (
-            state.currentPiece.x + state.currentPiece.matrix[0].length
-            < boardWidth
-        ) {
-            cleanPiece();
-            movePieceRight();
-            drawPiece();
-        }
+        cleanPiece();
+        movePieceRight();
+        drawPiece();
     }
 
     if (CONTROLS.down.includes(event.key)) {
