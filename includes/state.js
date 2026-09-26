@@ -9,7 +9,7 @@ export const state = {
         height: 0
     },
 
-    internalIntervalId: null
+    gameLoopId: null
 };
 
 export const resetCurrentPiece = () => {
