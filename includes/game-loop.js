@@ -3,7 +3,7 @@ import { state } from "./state.js";
 import { cleanPiece, drawPiece } from "./renderer.js";
 import { movePieceDown } from "./movement.js";
 
-export const startTimer = () => {
+export const startGameLoop = () => {
     state.internalIntervalId = setInterval(() => {
         console.log(`
             Current piece: ${state.currentPiece.matrix.length}
@@ -17,7 +17,7 @@ export const startTimer = () => {
     }, intervalTimer);
 };
 
-export const stopTimer = () => {
+export const stopGameLoop = () => {
     clearInterval(state.internalIntervalId);
     state.internalIntervalId = null;
 };

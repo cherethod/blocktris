@@ -36,8 +36,8 @@ import {
 } from "./renderer.js";
 
 import {
-    startTimer,
-    stopTimer
+    startGameLoop,
+    stopGameLoop
 } from "./game-loop.js";
 
 const generateNewPiece = () => {
@@ -66,11 +66,11 @@ const loadGameBoard = () => {
     drawBoard();
     generateNewPiece();
     document.addEventListener('keydown', keyHandler);
-    startTimer();
+    startGameLoopddd();
 }
 
 const endGame = () => {
-    stopTimer();
+    stopGameLoop();
     document.removeEventListener('keydown', keyHandler);
     resetCurrentPiece();
     mainMenu.style.display = 'flex';
