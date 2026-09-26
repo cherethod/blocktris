@@ -84,10 +84,9 @@ const loadGameBoard = () => {
     drawBoard();
     generateNewPiece();
     document.addEventListener('keydown', keyHandler);
-    // setTimeout(() => {
     startTimer();
-    // }, intervalTimer); 
 }
+
 const endGame = () => {
     stopTimer();
     document.removeEventListener('keydown', keyHandler);
