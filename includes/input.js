@@ -9,7 +9,7 @@ import {
     movePieceDown,
     movePieceLeft,
     movePieceRight,
-    rotateCurrentPiece,
+    rotateCurrentPiece
 } from "./movement.js";
 
 
