@@ -66,7 +66,7 @@ const loadGameBoard = () => {
     drawBoard();
     generateNewPiece();
     document.addEventListener('keydown', keyHandler);
-    startGameLoopddd();
+    startGameLoop();
 }
 
 const endGame = () => {
