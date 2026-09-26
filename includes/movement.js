@@ -14,13 +14,12 @@ export const movePieceRight = () => {
     ) state.currentPiece.x += 1;
 }
 
+const canMoveDown = () => {
+    return state.currentPiece.y < boardHeight - state.currentPiece.height;
+    }
+
 export const movePieceDown = () => {
-    if (state.currentPiece.y < boardHeight - state.currentPiece.height) {
-        state.currentPiece.y += 1;
-    }
-    else {
-        alert()
-    }
+    if (canMoveDown()) state.currentPiece.y += 1;
 }
 
 export const rotateCurrentPiece = () => {
