@@ -1,72 +1,11 @@
-// Variables de elementos
-const mainMenu = document.querySelector('.menu__container')
-const startBtn = document.querySelector('.menu__start--btn');
-const finishBtn = document.querySelector('.menu__finish--btn');
-const gameBoardContainer = document.querySelector('.game__container');
-const gameBoard = document.querySelector('.game__board');
-const context = gameBoard.getContext('2d');
-
-//Variables de configuracion
-const boardBgColor = '#000'
-const boardWidth = 10; 
-const boardHeight = 20;
-const cellSize = 30;
-const intervalTimer = 1000;
-let keyLeft = 37;
-let keyRight = 39;
-let keyDown = 40;
-let keyRotate = 32;
-
-
-//Variables generales del juego
-let internalIntervalId;
-gameBoard.width = boardWidth * cellSize;
-gameBoard.height = boardHeight * cellSize;
-let board = [];
-const pieces = {
-    O: [
-        [1,1],
-        [1,1]
-    ],
-    I: [
-        [0,0,0,0],
-        [1,1,1,1],
-        [0,0,0,0],
-        [0,0,0,0]
-    ],
-    L: [
-        [0,0,1],
-        [1,1,1],
-        [0,0,0]        
-    ],
-    J: [
-        [1,0,0],
-        [1,1,1],
-        [0,0,0]        
-    ],
-    T: [
-        [0,1,0],
-        [1,1,1],
-        [0,0,0]
-    ],
-    S: [
-        [0,1,1],
-        [1,1,0],
-        [0,0,0]
-    ],
-    Z: [
-        [1,1,0],
-        [0,1,1],
-        [0,0,0]
-    ]
-}
-
-//Variables de la pieza actual
-let currentPiece;
-let currentPieceX;
-let currentPieceY;
-let currentPieceColor;
-let currentPieceHeight;
+import "./dom.js"
+import "./board.js"
+import "./config.js"
+import "./input.js"
+import "./movement.js"
+import "./pieces.js"
+import "./renderer.js"
+import "./state.js"
 
 const getHeightOfPiece = () => {
     let pieceHeight = 0;
